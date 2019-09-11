@@ -13,6 +13,9 @@ var config = {
 
         switch (node.data.Type) {
             case "device":
+            case "PMDPort":
+            case "VPort":
+            case "PortInc":
             case "host":
                 attrs.icon = "\uf109"
                 attrs.weight = 3
@@ -60,6 +63,14 @@ var config = {
 
         if (node.data.IPV4 && node.data.IPV4.length) {
             attrs.weight = 3
+        }
+
+        if (node.data.Type === "PortOut") {
+            attrs.weight = 5
+        }
+
+        if (node.data.Type === "L2Forward" || node.data.Type === "Replicate") {
+            attrs.weight = 4
         }
 
         return attrs
