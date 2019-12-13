@@ -219,7 +219,30 @@ class App extends React.Component<Props, State> {
     if (!this.tc) {
       return
     }
-
+    console.log("parsing topo");
+    /*
+    // order nodes
+    var order = ["UrlFilter", "L2Forward", "Replicate"]
+    var nodes : Node[] = [];
+    while (data.Nodes.length > 0) {
+      if (order.length == 0) {
+        nodes = nodes.concat(data.Nodes);
+        break;
+      }
+      let indexes : number[]  = [];
+      for (let idx = 0; idx < data.Nodes.length; idx++) {
+        if (data.Nodes[idx].data.Type === order[0]) {
+          nodes.push(data.Nodes[idx]);
+          indexes.push(idx);
+        }
+      }
+      indexes.forEach(function(element){
+        data.Nodes.splice(element,1);
+      });
+      order.shift();
+      console.log(nodes);
+    }
+    */
     // first add all the nodes
     for (let node of data.Nodes) {
       this.addNode(node, ["infra"])
@@ -334,6 +357,27 @@ class App extends React.Component<Props, State> {
   }
 
   sortNodesFnc(a, b) {
+    let order : string[]= ["UrlFilter", "L2Forward", "Replicate"]
+    if (order.indexOf(a.data.Type) > 0 || order.indexOf(b.data.Type) > 0) {
+      let aIdx : number = order.indexOf(a.data.Type);
+      let bIdx : number = order.indexOf(b.data.Type);
+      if (aIdx == -1) {
+        // b's value must be non-negative, so it must come first
+        return 1
+      } else if (bIdx == -1) {
+        // a's value is non-negative, and should come first
+        return -1
+      } else {
+        //real comparison of indexes
+        if (aIdx == bIdx) {
+          return 0
+        } else if (aIdx < bIdx) {
+          return -1
+        } else {
+          return 1
+        }
+      }
+    }
     return a.data.Name.localeCompare(b.data.Name)
   }
 

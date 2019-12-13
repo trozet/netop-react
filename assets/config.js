@@ -69,7 +69,7 @@ var config = {
             attrs.weight = 5
         }
 
-        if (node.data.Type === "L2Forward" || node.data.Type === "Replicate") {
+        if (node.data.Type === "UrlFilter" || node.data.Type === "L2Forward" || node.data.Type === "Replicate") {
             attrs.weight = 4
         }
 
@@ -77,9 +77,9 @@ var config = {
     },
     "weightTitles": {
         0: "Fabric",
-        3: "Physical",
-        4: "Bridges",
-        5: "Ports",
+        3: "Ingress",
+        4: "Pipeline",
+        5: "Egress",
         7: "Virtual",
         8: "Namespaces"
     },
